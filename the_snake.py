@@ -42,7 +42,7 @@ clock = pygame.time.Clock()
 class GameObject:
     """Базовый класс для игровых объектов."""
 
-    def __init__(self, body_color):
+    def __init__(self, body_color=None):
         self.body_color = body_color
         self.position = (
             (GRID_WIDTH // 2) * GRID_SIZE,
@@ -88,6 +88,10 @@ class Snake(GameObject):
         self.direction = RIGHT
         self.next_direction = None
         self.last = None
+
+    def get_head_position(self):
+        """Возвращает позицию головы змейки."""
+        return self.positions[0]
 
     def update_direction(self):
         """Обновляет направление движения после нажатия клавиши."""
