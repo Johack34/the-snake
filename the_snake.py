@@ -1,4 +1,4 @@
-from random import choice, randint
+from random import randint
 
 import pygame
 
@@ -50,6 +50,7 @@ class GameObject:
         )
 
     def draw(self):
+        """Отрисовывает игровой объект на экране."""
         raise NotImplementedError
 
 
@@ -68,6 +69,7 @@ class Apple(GameObject):
         )
 
     def draw(self):
+        """Отрисовывает яблоко на экране."""
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
@@ -103,46 +105,8 @@ class Snake(GameObject):
         )
         self.positions.insert(0, new_head)
 
-
-class Snake(GameObject):
-    """Класс змейки."""
-
-    def __init__(self):
-        super().__init__(SNAKE_COLOR)
-        self.reset()
-
-    def reset(self):
-        """Сбрасывает состояние змейки в начальное."""
-        self.positions = [self.position]
-        self.direction = RIGHT
-        self.next_direction = None
-        self.last = None
-
-    def update_direction(self):
-        """Обновляет направление движения после нажатия клавиши."""
-        if self.next_direction:
-            self.direction = self.next_direction
-            self.next_direction = None
-
-    def move(self):
-        """Перемещает змейку на одну клетку в текущем направлении."""
-        head_x, head_y = self.positions[0]
-        dx, dy = self.direction
-        new_head = (
-            (head_x + dx * GRID_SIZE) % SCREEN_WIDTH,
-            (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT,
-        )
-
-        self.last = self.positions[-1]
-        self.positions.insert(0, new_head)
-
-        # Удаляем последний сегмент, если не произошло поедание яблока
-        # (поедание обрабатывается в main)
-        if len(self.positions) > 1:
-            # Временно не удаляем — main решит, нужно ли удалять.
-            pass
-
     def draw(self):
+        """Отрисовывает змейку на экране."""
         for position in self.positions[:-1]:
             rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, self.body_color, rect)
@@ -177,6 +141,7 @@ def handle_keys(game_object):
 
 
 def main():
+    """Запускает основную логику игры."""
     # Инициализация PyGame:
     pygame.init()
 
